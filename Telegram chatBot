@@ -1,0 +1,82 @@
+# Telegem-chatBot
+const TelegramBot=require("node-telegram-bot-api");
+const token="6150829446:AAHwp5QDVEK-0nhET8Ygr7A720WoR9-NgN4";
+const newBot=new TelegramBot(token,{polling:true});
+const request = require('request');
+newBot.on("message",function(data){
+    request("https://www.omdbapi.com/?t="+data.text+"&apikey=8a72b5b9",function(error,response,body){
+    if(data.text.toLowerCase()==="start"){
+            newBot.sendMessage(data.chat.id,"Lets welcome MovieUpdateBot");
+    }
+    else if(JSON.parse(body).Response==="True"){
+        newBot.sendMessage(data.chat.id,"Title: "+JSON.parse(body).Title);
+        if(JSON.parse(body).Year!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Year: "+JSON.parse(body).Year);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Year: Not Available any Year Data");
+        }
+        if(JSON.parse(body).Released!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Released: "+JSON.parse(body).Released);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Released: Not Available any Released Date");
+        }
+        if(JSON.parse(body).Director!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Director: "+JSON.parse(body).Director);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Director: Not Available any Director Name");
+        }
+        if(JSON.parse(body).Actors!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Actors: "+JSON.parse(body).Actors);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Actors: Not Available any Actors Names");
+        }
+        if(JSON.parse(body).Language!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Language: "+JSON.parse(body).Language);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Language: Not Available any Language data");
+        }
+        if(JSON.parse(body).Country!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Country: "+JSON.parse(body).Country);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Country: Not Available any Country Data");
+        }
+        if(JSON.parse(body).imdbRating!=="N/A"){
+            newBot.sendMessage(data.chat.id,"IMDB Rating: "+JSON.parse(body).imdbRating);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"IMDB Rating: Not Available any Rating Data");
+        }
+        if(JSON.parse(body).Awards!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Awards: "+JSON.parse(body).Awards);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Awards: Not Available any Awards Data");
+        }
+        if(JSON.parse(body).BoxOffice!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Box Office Collections: "+JSON.parse(body).BoxOffice);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Box Office Collections: Not Available any Collections Data");
+        }
+        if(JSON.parse(body).Poster!=="N/A"){
+            newBot.sendMessage(data.chat.id,"Movie Poster: "+JSON.parse(body).Poster);
+        }
+        else{
+            newBot.sendMessage(data.chat.id,"Movie Poster: Not Available any Poster");
+        }
+
+    }
+    else if(data.text.toLowerCase()==="thankyou"){
+        newBot.sendMessage(data.chat.id,"Thanks for Visting the MovieUpdateBot");
+    }
+    else{
+            newBot.sendMessage(data.chat.id,"Movie is not found,please try again");
+         }
+})
+});
